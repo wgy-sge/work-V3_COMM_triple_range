@@ -1,0 +1,57 @@
+# 编译输出目录
+Debug/
+Release/
+Objects/
+Listings/
+Obj/
+Exe/
+List/
+Build/
+Output/
+out/
+
+**/Debug/
+**/Release/
+**/Objects/
+**/Listings/
+**/Obj/
+**/Exe/
+**/List/
+
+# 编译生成文件
+*.o
+*.obj
+*.d
+*.dep
+*.map
+*.lst
+*.axf
+*.elf
+*.out
+*.hex
+*.bin
+*.pbi
+*.pbd
+*.dni
+
+# Keil 用户配置
+*.uvguix.*
+*.uvgui.*
+
+# IAR 用户配置
+settings/
+**/settings/
+*.wsdt
+*.dbgu
+
+# J-Link / 编译日志
+JLinkLog.txt
+*.log
+
+# 临时文件
+*.tmp
+*.bak
+*.orig
+*~
+Thumbs.db
+Desktop.ini

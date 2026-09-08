@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="engine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gpib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_app.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stm32f10x_it.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stm32f10x_vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="variable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canopen\can.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canopen\canopenpoll.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canopen\mco.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canopen\mcohw_LPC2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="canopen\user_LPC2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\dma_uart1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\dma_uart3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\trpa_trsm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\uvmb_lan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\uvmb_rs232.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\uvmb_rs485.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\uvmb_tcp_lan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\fmb_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\fmb_crc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\fmb_func_holding.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\fmb_global.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\fmb_rtu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\port_event.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\port_serial.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmodbus\port_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_adc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_bkp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_can.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_crc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_dac.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_dbgmcu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_dma.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_exti.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_flash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_fsmc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_gpio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_i2c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_iwdg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_lib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_nvic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_pwr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_rcc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_rtc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_sdio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_spi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_systick.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_tim.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_usart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="library\src\stm32f10x_wwdg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\scpi_errors.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\scpi_keyword_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\scpi_parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\scpi_processor.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\scpi_variable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\auto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\cal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\ccd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\cmd_tools.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\combine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\configure.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\crd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\discharge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\effect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\esr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\input.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\led.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\measure.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\ocp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\opp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\power.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\resistance.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\sequence.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\static.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\status.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\sweep.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\system.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scpi\cmd\transient.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\app_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\dhcp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\dns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\md5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\net_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\socket.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\spix.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\sys_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="w5500\w5500.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gpib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="load_register.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f10x_conf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stm32f10x_it.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="variable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canopen\can.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canopen\canopenpoll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canopen\mco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canopen\mcohw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="canopen\MCP2510.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\dma_uart1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\dma_uart3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\mb_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\trpa_trsm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\uvmb_lan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\uvmb_rs232.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\uvmb_rs485.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="driver\uvmb_tcp_lan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_crc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\fmb_rtu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmodbus\port.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\cortexm3_macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_adc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_bkp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_can.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_crc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_dac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_dbgmcu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_dma.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_exti.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_flash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_fsmc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_gpio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_i2c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_iwdg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_nvic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_pwr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_rcc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_rtc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_sdio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_spi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_systick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_tim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_usart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inc\stm32f10x_wwdg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\IEEE488.2_Errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\scpi_errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\scpi_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\scpi_macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\scpi_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\scpi_processor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scpi\cmd\cmd_tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\app_timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\dhcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\dns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\net_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\spix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\sys_timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="w5500\w5500.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="debug\exe\Load_com_V1_8004000.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

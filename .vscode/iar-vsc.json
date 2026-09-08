@@ -1,0 +1,18 @@
+{
+  "workspace": {
+    "path": "${workspaceFolder}\\ELoader.eww"
+  },
+  "workspaces": {
+    "${workspaceFolder}\\ELoader.eww": {
+      "configs": {
+        "${workspaceFolder}\\ELoader.ewp": "Debug"
+      },
+      "selected": {
+        "path": "${workspaceFolder}\\ELoader.ewp"
+      }
+    }
+  },
+  "workbench": {
+    "path": "E:\\APP\\Program Files\\IAR Systems\\Embedded Workbench 9.2"
+  }
+}

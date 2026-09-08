@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="canopen\can.c" />
+    <ClCompile Include="canopen\canopenpoll.c" />
+    <ClCompile Include="canopen\mco.c" />
+    <ClCompile Include="canopen\mcohw_LPC2.c" />
+    <ClCompile Include="canopen\user_LPC2.c" />
+    <ClCompile Include="driver\dma_uart1.c" />
+    <ClCompile Include="driver\dma_uart3.c" />
+    <ClCompile Include="driver\trpa_trsm.c" />
+    <ClCompile Include="driver\uvmb_lan.c" />
+    <ClCompile Include="driver\uvmb_rs232.c" />
+    <ClCompile Include="driver\uvmb_rs485.c" />
+    <ClCompile Include="driver\uvmb_tcp_lan.c" />
+    <ClCompile Include="engine.c" />
+    <ClCompile Include="fmodbus\fmb_client.c" />
+    <ClCompile Include="fmodbus\fmb_crc.c" />
+    <ClCompile Include="fmodbus\fmb_func_holding.c" />
+    <ClCompile Include="fmodbus\fmb_global.c" />
+    <ClCompile Include="fmodbus\fmb_rtu.c" />
+    <ClCompile Include="fmodbus\port_event.c" />
+    <ClCompile Include="fmodbus\port_serial.c" />
+    <ClCompile Include="fmodbus\port_timer.c" />
+    <ClCompile Include="gpib.c" />
+    <ClCompile Include="init.c" />
+    <ClCompile Include="library\src\stm32f10x_adc.c" />
+    <ClCompile Include="library\src\stm32f10x_bkp.c" />
+    <ClCompile Include="library\src\stm32f10x_can.c" />
+    <ClCompile Include="library\src\stm32f10x_crc.c" />
+    <ClCompile Include="library\src\stm32f10x_dac.c" />
+    <ClCompile Include="library\src\stm32f10x_dbgmcu.c" />
+    <ClCompile Include="library\src\stm32f10x_dma.c" />
+    <ClCompile Include="library\src\stm32f10x_exti.c" />
+    <ClCompile Include="library\src\stm32f10x_flash.c" />
+    <ClCompile Include="library\src\stm32f10x_fsmc.c" />
+    <ClCompile Include="library\src\stm32f10x_gpio.c" />
+    <ClCompile Include="library\src\stm32f10x_i2c.c" />
+    <ClCompile Include="library\src\stm32f10x_iwdg.c" />
+    <ClCompile Include="library\src\stm32f10x_lib.c" />
+    <ClCompile Include="library\src\stm32f10x_nvic.c" />
+    <ClCompile Include="library\src\stm32f10x_pwr.c" />
+    <ClCompile Include="library\src\stm32f10x_rcc.c" />
+    <ClCompile Include="library\src\stm32f10x_rtc.c" />
+    <ClCompile Include="library\src\stm32f10x_sdio.c" />
+    <ClCompile Include="library\src\stm32f10x_spi.c" />
+    <ClCompile Include="library\src\stm32f10x_systick.c" />
+    <ClCompile Include="library\src\stm32f10x_tim.c" />
+    <ClCompile Include="library\src\stm32f10x_usart.c" />
+    <ClCompile Include="library\src\stm32f10x_wwdg.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="scpi\cmd\auto.c" />
+    <ClCompile Include="scpi\cmd\cal.c" />
+    <ClCompile Include="scpi\cmd\ccd.c" />
+    <ClCompile Include="scpi\cmd\cmd_tools.c" />
+    <ClCompile Include="scpi\cmd\combine.c" />
+    <ClCompile Include="scpi\cmd\configure.c" />
+    <ClCompile Include="scpi\cmd\crd.c" />
+    <ClCompile Include="scpi\cmd\discharge.c" />
+    <ClCompile Include="scpi\cmd\effect.c" />
+    <ClCompile Include="scpi\cmd\esr.c" />
+    <ClCompile Include="scpi\cmd\input.c" />
+    <ClCompile Include="scpi\cmd\led.c" />
+    <ClCompile Include="scpi\cmd\measure.c" />
+    <ClCompile Include="scpi\cmd\ocp.c" />
+    <ClCompile Include="scpi\cmd\opp.c" />
+    <ClCompile Include="scpi\cmd\power.c" />
+    <ClCompile Include="scpi\cmd\resistance.c" />
+    <ClCompile Include="scpi\cmd\sequence.c" />
+    <ClCompile Include="scpi\cmd\static.c" />
+    <ClCompile Include="scpi\cmd\status.c" />
+    <ClCompile Include="scpi\cmd\sweep.c" />
+    <ClCompile Include="scpi\cmd\system.c" />
+    <ClCompile Include="scpi\cmd\transient.c" />
+    <ClCompile Include="scpi\scpi_errors.c" />
+    <ClCompile Include="scpi\scpi_keyword_table.c" />
+    <ClCompile Include="scpi\scpi_parser.c" />
+    <ClCompile Include="scpi\scpi_processor.c" />
+    <ClCompile Include="scpi\scpi_variable.c" />
+    <ClCompile Include="socket_app.c" />
+    <ClCompile Include="stm32f10x_it.c" />
+    <ClCompile Include="stm32f10x_vector.c" />
+    <ClCompile Include="uart.c" />
+    <ClCompile Include="variable.c" />
+    <ClCompile Include="w5500\app_timer.c" />
+    <ClCompile Include="w5500\dhcp.c" />
+    <ClCompile Include="w5500\dns.c" />
+    <ClCompile Include="w5500\md5.c" />
+    <ClCompile Include="w5500\net_config.c" />
+    <ClCompile Include="w5500\socket.c" />
+    <ClCompile Include="w5500\spix.c" />
+    <ClCompile Include="w5500\sys_timer.c" />
+    <ClCompile Include="w5500\w5500.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="canopen\can.h" />
+    <ClInclude Include="canopen\canopenpoll.h" />
+    <ClInclude Include="canopen\mco.h" />
+    <ClInclude Include="canopen\mcohw.h" />
+    <ClInclude Include="canopen\MCP2510.h" />
+    <ClInclude Include="driver\dma_uart1.h" />
+    <ClInclude Include="driver\dma_uart3.h" />
+    <ClInclude Include="driver\mb_config.h" />
+    <ClInclude Include="driver\trpa_trsm.h" />
+    <ClInclude Include="driver\uvmb_lan.h" />
+    <ClInclude Include="driver\uvmb_rs232.h" />
+    <ClInclude Include="driver\uvmb_rs485.h" />
+    <ClInclude Include="driver\uvmb_tcp_lan.h" />
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="fmodbus\fmb.h" />
+    <ClInclude Include="fmodbus\fmb_crc.h" />
+    <ClInclude Include="fmodbus\fmb_frame.h" />
+    <ClInclude Include="fmodbus\fmb_global.h" />
+    <ClInclude Include="fmodbus\fmb_port.h" />
+    <ClInclude Include="fmodbus\fmb_proto.h" />
+    <ClInclude Include="fmodbus\fmb_rtu.h" />
+    <ClInclude Include="fmodbus\port.h" />
+    <ClInclude Include="gpib.h" />
+    <ClInclude Include="include.h" />
+    <ClInclude Include="init.h" />
+    <ClInclude Include="library\inc\cortexm3_macro.h" />
+    <ClInclude Include="library\inc\stm32f10x_adc.h" />
+    <ClInclude Include="library\inc\stm32f10x_bkp.h" />
+    <ClInclude Include="library\inc\stm32f10x_can.h" />
+    <ClInclude Include="library\inc\stm32f10x_crc.h" />
+    <ClInclude Include="library\inc\stm32f10x_dac.h" />
+    <ClInclude Include="library\inc\stm32f10x_dbgmcu.h" />
+    <ClInclude Include="library\inc\stm32f10x_dma.h" />
+    <ClInclude Include="library\inc\stm32f10x_exti.h" />
+    <ClInclude Include="library\inc\stm32f10x_flash.h" />
+    <ClInclude Include="library\inc\stm32f10x_fsmc.h" />
+    <ClInclude Include="library\inc\stm32f10x_gpio.h" />
+    <ClInclude Include="library\inc\stm32f10x_i2c.h" />
+    <ClInclude Include="library\inc\stm32f10x_iwdg.h" />
+    <ClInclude Include="library\inc\stm32f10x_lib.h" />
+    <ClInclude Include="library\inc\stm32f10x_map.h" />
+    <ClInclude Include="library\inc\stm32f10x_nvic.h" />
+    <ClInclude Include="library\inc\stm32f10x_pwr.h" />
+    <ClInclude Include="library\inc\stm32f10x_rcc.h" />
+    <ClInclude Include="library\inc\stm32f10x_rtc.h" />
+    <ClInclude Include="library\inc\stm32f10x_sdio.h" />
+    <ClInclude Include="library\inc\stm32f10x_spi.h" />
+    <ClInclude Include="library\inc\stm32f10x_systick.h" />
+    <ClInclude Include="library\inc\stm32f10x_tim.h" />
+    <ClInclude Include="library\inc\stm32f10x_type.h" />
+    <ClInclude Include="library\inc\stm32f10x_usart.h" />
+    <ClInclude Include="library\inc\stm32f10x_wwdg.h" />
+    <ClInclude Include="load_register.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="scpi\cmd\cmd_tools.h" />
+    <ClInclude Include="scpi\IEEE488.2_Errors.h" />
+    <ClInclude Include="scpi\scpi_errors.h" />
+    <ClInclude Include="scpi\scpi_interface.h" />
+    <ClInclude Include="scpi\scpi_macro.h" />
+    <ClInclude Include="scpi\scpi_parser.h" />
+    <ClInclude Include="scpi\scpi_processor.h" />
+    <ClInclude Include="socket_app.h" />
+    <ClInclude Include="stm32f10x_conf.h" />
+    <ClInclude Include="stm32f10x_it.h" />
+    <ClInclude Include="uart.h" />
+    <ClInclude Include="variable.h" />
+    <ClInclude Include="w5500\app_timer.h" />
+    <ClInclude Include="w5500\dhcp.h" />
+    <ClInclude Include="w5500\dns.h" />
+    <ClInclude Include="w5500\md5.h" />
+    <ClInclude Include="w5500\net_config.h" />
+    <ClInclude Include="w5500\socket.h" />
+    <ClInclude Include="w5500\spix.h" />
+    <ClInclude Include="w5500\sys_timer.h" />
+    <ClInclude Include="w5500\w5500.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="debug\exe\Load_com_V1_8004000.bin" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
