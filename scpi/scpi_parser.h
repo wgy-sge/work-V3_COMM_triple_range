@@ -16,12 +16,12 @@
 
 #include "../include.h"
 
-//ÃüÁîÀàĞÍ´úÂë¶¨Òå
+//å‘½ä»¤ç±»å‹ä»£ç å®šä¹‰
 #define SCPI_COMMON		0x00
 #define SCPI_SPECIAL	0x01
 #define SCPI_SPE_QUE	0x02
 
-// scpi_analyse ËùÓÃµ½µÄ 6 ¸öÖ÷×´Ì¬¼°×´Ì¬±äÁ¿
+// scpi_analyse æ‰€ç”¨åˆ°çš„ 6 ä¸ªä¸»çŠ¶æ€åŠçŠ¶æ€å˜é‡
 #define SCPI_PRETREATMENT	0x00
 #define SCPI_PARSER_START	0x01
 #define SCPI_PARSER_HEAD	0x02
@@ -30,7 +30,7 @@
 #define SCPI_PARSER_END		0x05
 extern unsigned char scpi_parser_primary_status;
 
-// scpi_analyse ËùÓÃµ½µÄ¶ş¼¶×´Ì¬¼°×´Ì¬±äÁ¿
+// scpi_analyse æ‰€ç”¨åˆ°çš„äºŒçº§çŠ¶æ€åŠçŠ¶æ€å˜é‡
 //SCPI_PARSER_HEAD
 #define SCPI_COMMAND_HEAD_START		0x00
 #define SCPI_COMMON_HEAD			0x01
@@ -50,16 +50,16 @@ extern unsigned char scpi_parser_primary_status;
 #define SCPI_PARAMETER_END			0x0D
 extern unsigned char scpi_parser_secondary_status;
 
-// scpi_analyse ËùÓÃµ½µÄ¶şÖµÂß¼­ÅĞ¶Ï±êÖ¾
+// scpi_analyse æ‰€ç”¨åˆ°çš„äºŒå€¼é€»è¾‘åˆ¤æ–­æ ‡å¿—
 extern bool scpi_middle_keyword;
 
-// scpi_analyse ËùÓÃµ½µÄÖ¸Õë±äÁ¿
+// scpi_analyse æ‰€ç”¨åˆ°çš„æŒ‡é’ˆå˜é‡
 extern unsigned char	*p_scpi_input_head;
 extern unsigned char	*p_scpi_input_tail;
 extern unsigned char	*p_scpi_inside;
 extern unsigned char	*p_scpi_param_write;
 
-// scpi_analyse ËùÓÃµ½µÄÆäËû±äÁ¿
+// scpi_analyse æ‰€ç”¨åˆ°çš„å…¶ä»–å˜é‡
 extern unsigned char	scpi_inside_buffer[SCPI_INPUT_BUF_LEN];
 extern unsigned char	scpi_keyword_copy[SCPI_INPUT_PARAM_LEN+1];
 extern unsigned char	scpi_command_type;
@@ -74,7 +74,7 @@ extern float	scpi_float_value;
 
 /****************************************************************************************
 *																						*
-*								scpi ÃüÁî½á¹¹Ìå¶¨Òå										*
+*								scpi å‘½ä»¤ç»“æ„ä½“å®šä¹‰										*
 *																						*
 ****************************************************************************************/
 
@@ -86,15 +86,15 @@ typedef struct SCPI_COMMON_KEYWORD{
 }scpi_common_keyword;
 
 typedef struct SCPI_SPECIAL_KEYWORD{
-	unsigned char name[13];
-	unsigned char shortname[5];
-	short FirstChild;
-	short NextBrother;
-	bool IsDefault;
-	short param_num;
-	short q_param_num;
-	p_scpi_func_type p_function;
-	p_scpi_func_type p_q_function;
+	unsigned char name[13];             // å®Œæ•´å‘½ä»¤å…³é”®å­—ï¼Œæœ€å¤š 12 ä¸ªå­—ç¬¦ï¼Œæœ«å°¾ä¿ç•™ '\0'
+	unsigned char shortname[5];         // SCPI çŸ­å‘½ä»¤å…³é”®å­—ï¼Œæœ€å¤š 4 ä¸ªå­—ç¬¦
+	short FirstChild;                   // ç¬¬ä¸€ä¸ªå­èŠ‚ç‚¹åœ¨å‘½ä»¤è¡¨ä¸­çš„ç´¢å¼•ï¼Œ-1 è¡¨ç¤ºæ²¡æœ‰å­èŠ‚ç‚¹
+	short NextBrother;                  // ä¸‹ä¸€ä¸ªåŒçº§èŠ‚ç‚¹åœ¨å‘½ä»¤è¡¨ä¸­çš„ç´¢å¼•ï¼Œ-1 è¡¨ç¤ºæ²¡æœ‰åŒçº§åç»§èŠ‚ç‚¹
+	bool IsDefault;                     // TRUEï¼šå¯çœç•¥çš„é»˜è®¤è·¯å¾„èŠ‚ç‚¹ï¼Œå¦‚ [:SCALar] æˆ– [:DC]
+	short param_num;                    // è®¾ç½®å‘½ä»¤æ‰€éœ€å‚æ•°ä¸ªæ•°ï¼Œ-1 è¡¨ç¤ºå‚æ•°ä¸ªæ•°å¯å˜
+	short q_param_num;                  // æŸ¥è¯¢å‘½ä»¤æ‰€éœ€å‚æ•°ä¸ªæ•°ï¼Œ-1 è¡¨ç¤ºå‚æ•°ä¸ªæ•°å¯å˜
+	p_scpi_func_type p_function;        // è®¾ç½®å‘½ä»¤å¤„ç†å‡½æ•°ï¼›NULL è¡¨ç¤ºè¯¥èŠ‚ç‚¹ä¸æ”¯æŒè®¾ç½®
+	p_scpi_func_type p_q_function;      // æŸ¥è¯¢å‘½ä»¤å¤„ç†å‡½æ•°ï¼›NULL è¡¨ç¤ºè¯¥èŠ‚ç‚¹ä¸æ”¯æŒæŸ¥è¯¢
 }scpi_special_keyword;
 
 extern scpi_common_keyword	*p_scpi_common;
@@ -106,14 +106,14 @@ extern scpi_special_keyword	*p_scpi_visible_level;
 
 /****************************************************************************************
 *																						*
-*								scpi ½âÎöÆ÷ÄÚ²¿º¯ÊıÉùÃ÷									*
+*								scpi è§£æå™¨å†…éƒ¨å‡½æ•°å£°æ˜									*
 *																						*
 ****************************************************************************************/
 
 void scpi_pretreatment(void);
 void scpi_parser_start(void);
 
-//ÃüÁîÍ·´¦ÀíÒ»¼¶º¯Êı£¬ÒÔ¼°±»¸Ãº¯Êıµ÷ÓÃµÄ¶ş¼¶º¯Êı
+//å‘½ä»¤å¤´å¤„ç†ä¸€çº§å‡½æ•°ï¼Œä»¥åŠè¢«è¯¥å‡½æ•°è°ƒç”¨çš„äºŒçº§å‡½æ•°
 void scpi_parser_head(void);
 void scpi_command_head_start(void);
 void scpi_common_head(void);
@@ -123,7 +123,7 @@ void scpi_ransack_special_table(void);
 void scpi_exist_default_path(void);
 void scpi_command_head_end(void);
 
-//²ÎÊı´¦ÀíÒ»¼¶º¯Êı£¬ÒÔ¼°±»¸Ãº¯Êıµ÷ÓÃµÄ¶ş¼¶º¯Êı
+//å‚æ•°å¤„ç†ä¸€çº§å‡½æ•°ï¼Œä»¥åŠè¢«è¯¥å‡½æ•°è°ƒç”¨çš„äºŒçº§å‡½æ•°
 void scpi_parser_parameter(void);
 void scpi_parameter_start(void);
 void scpi_parameter_decimal(void);
@@ -136,12 +136,12 @@ void scpi_parameter_units(void);
 void scpi_parameter_pause(void);
 void scpi_parameter_end(void);
 
-//¹¦ÄÜº¯Êı
+//åŠŸèƒ½å‡½æ•°
 #ifdef  __SUPPORT__MACRO__
 short scpi_macro_define(void);
 #endif
 
-//²âÊÔº¯Êı
+//æµ‹è¯•å‡½æ•°
 //short scpi_function_test(void);
 
 

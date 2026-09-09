@@ -20,11 +20,13 @@ extern const scpi_common_keyword scpi_common_command_table[];
 extern const scpi_special_keyword scpi_special_command_table[];
 #endif
 
+// 初始化解析器主状态，使下一条命令从预处理阶段开始。
 void scpi_init(void)
 {
 	scpi_parser_primary_status = SCPI_PRETREATMENT;
 }
 
+// SCPI 解析总状态机：依次完成预处理、命令头解析、参数解析，并在暂停或结束时返回。
 void scpi_parser(void)
 {
 	while(TRUE)
@@ -32,23 +34,23 @@ void scpi_parser(void)
 		switch(scpi_parser_primary_status)
 		{
 		case SCPI_PRETREATMENT:
-			scpi_pretreatment();
+			scpi_pretreatment();       // 跳过前导空白，将输入统一转换为小写
 			break;
 		case SCPI_PARSER_START:
 			p_scpi_inside = scpi_inside_buffer;
 			p_scpi_level = p_scpi_visible_level = (scpi_special_keyword *)scpi_special_command_table;
-			scpi_parser_start();
+			scpi_parser_start();       // 定位本行中下一条有效命令的起点
 			break;
 		case SCPI_PARSER_HEAD:
 			scpi_param_buffer[0] = 0;
 			scpi_parser_secondary_status = SCPI_COMMAND_HEAD_START;
 			p_scpi_level = p_scpi_visible_level;
-			scpi_parser_head();
+			scpi_parser_head();        // 解析公共命令或设备命令头，并查找处理函数
 			break;
 		case SCPI_PARSER_PARAM:
 			scpi_parser_secondary_status = SCPI_PARAMETER_START;
 			p_scpi_param_write = scpi_param_buffer + 1;
-			scpi_parser_parameter();
+			scpi_parser_parameter();   // 按类型解析命令参数并写入参数缓冲区
 			break;
 		case SCPI_PARSER_PAUSE:
 			scpi_parser_primary_status = SCPI_PARSER_HEAD;
@@ -69,6 +71,7 @@ void scpi_parser(void)
 	}
 }
 
+// 输入预处理：跳过前导空白，将命令转为小写并复制到内部解析缓冲区。
 void scpi_pretreatment(void)
 {
 #ifdef __SUPPORT__MACRO__
@@ -108,6 +111,7 @@ void scpi_pretreatment(void)
 	}
 }
 
+// 命令起始处理：跳过空白和多余分号，判断本行结束或转入命令头解析。
 void scpi_parser_start(void)
 {
 	while(TRUE)
@@ -143,6 +147,7 @@ void scpi_parser_start(void)
 	}
 }
 
+// 命令头二级状态机：调度命令类型判断、关键字提取、查表和命令头收尾。
 void scpi_parser_head(void)
 {
 	while(TRUE)
@@ -150,16 +155,16 @@ void scpi_parser_head(void)
 		switch(scpi_parser_secondary_status)
 		{
 		case SCPI_COMMAND_HEAD_START:
-			scpi_command_head_start();
+			scpi_command_head_start(); // 根据首字符判断公共命令、绝对路径或普通设备命令
 			break;
 		case SCPI_COMMON_HEAD:
-			scpi_common_head();
+			scpi_common_head();        // 提取以 '*' 开头的 IEEE 488.2 公共命令
 			break;
 		case SCPI_SPECIAL_HEAD:
-			scpi_special_head();
+			scpi_special_head();       // 提取设备命令的当前层级关键字
 			break;
 		case SCPI_COMMAND_HEAD_END:
-			scpi_command_head_end();
+			scpi_command_head_end();   // 校验参数需求，并决定进入参数、暂停或结束状态
 			return;
 		case SCPI_COMMAND_HEAD_NONE:                         //@add luguangping 20110704
 			scpi_parser_primary_status = SCPI_PARSER_END;    //@add luguangping 20110704
@@ -170,6 +175,7 @@ void scpi_parser_head(void)
 	}
 }
 
+// 判断命令头类型：'*' 为公共命令，':' 为根路径，字母为设备命令。
 void scpi_command_head_start(void)
 {
 	while(TRUE)
@@ -240,6 +246,7 @@ void scpi_command_head_start(void)
 	}
 }
 
+// 提取公共命令关键字（如 *IDN?），并检查其长度和结束字符是否合法。
 void scpi_common_head(void)
 {
 	int i;
@@ -306,6 +313,7 @@ void scpi_common_head(void)
 	}
 }
 
+// 遍历公共命令表，匹配关键字并将对应处理函数保存到 scpi_func_output。
 void scpi_ransack_common_table(void)
 {
 	p_scpi_common = (scpi_common_keyword *)scpi_common_command_table;
@@ -334,6 +342,7 @@ void scpi_ransack_common_table(void)
 	}
 }
 
+// 提取设备命令当前层关键字，识别查询符 '?' 以及是否还有 ':' 子路径。
 void scpi_special_head(void)
 {
 	int i;
@@ -412,6 +421,7 @@ void scpi_special_head(void)
 	}
 }
 
+// 在当前命令树层级查找长/短关键字，并处理子节点、同级节点及默认路径。
 void scpi_ransack_special_table(void)
 {
 	char *p_query;
@@ -521,6 +531,7 @@ void scpi_ransack_special_table(void)
 	}
 }
 
+// 沿 IsDefault 标记的默认子节点向下查找，补全命令末尾省略的可选路径。
 void scpi_exist_default_path(void)
 {
 	p_scpi_level = p_scpi_keyword;
@@ -586,6 +597,7 @@ void scpi_exist_default_path(void)
 	}
 }
 
+// 命令头收尾：检查缺失参数，并根据后续字符进入参数解析、分号暂停或整行结束。
 void scpi_command_head_end(void)
 {
 	if(scpi_parser_return_code)
@@ -641,6 +653,7 @@ void scpi_command_head_end(void)
 	}
 }
 
+// 参数解析二级状态机：根据参数类型调度具体解析函数，直至参数段结束。
 void scpi_parser_parameter(void)
 {
 	scpi_param_index = 1;
@@ -649,31 +662,31 @@ void scpi_parser_parameter(void)
 		switch(scpi_parser_secondary_status)
 		{
 		case SCPI_PARAMETER_START:
-			scpi_parameter_start();
+			scpi_parameter_start();       // 根据首字符判定参数类型，并检查参数数量
 			break;
 		case SCPI_PARAMETER_DECIMAL:
-			scpi_parameter_decimal();
+			scpi_parameter_decimal();     // 解析整数、浮点数和科学计数法
 			break;
 		case SCPI_PARAMETER_KEYWORD:
-			scpi_parameter_keyword();
+			scpi_parameter_keyword();     // 解析 ON、OFF、MAX 等裸关键字参数
 			break;
 		case SCPI_PARAMETER_NONDECIMAL:
-			scpi_parameter_nondecimal();
+			scpi_parameter_nondecimal();  // 处理 #B/#Q/#H 非十进制参数（当前未启用）
 			break;
 		case SCPI_PARAMETER_STRING:
-			scpi_parameter_string();
+			scpi_parameter_string();      // 处理带引号字符串参数（当前未启用）
 			break;
 		case SCPI_PARAMETER_EXPRESSION:
-			scpi_parameter_expression();
+			scpi_parameter_expression();  // 处理括号表达式参数（当前未启用）
 			break;
 		case SCPI_PARAMETER_BLOCK:
-			scpi_parameter_block();
+			scpi_parameter_block();       // 处理 SCPI 块数据参数（当前未启用）
 			break;
 		case SCPI_PARAMETER_UNITS:
-			scpi_parameter_units();
+			scpi_parameter_units();       // 处理数字后的单位后缀（当前直接报格式错误）
 			break;
 		case SCPI_PARAMETER_PAUSE:
-			scpi_parameter_pause();
+			scpi_parameter_pause();       // 处理逗号、分号和行尾，决定继续或结束
 			break;
 		case SCPI_PARAMETER_END:
 			if(scpi_parser_return_code)
@@ -688,6 +701,7 @@ void scpi_parser_parameter(void)
 	}
 }
 
+// 根据参数首字符选择数字、关键字、非十进制、字符串、表达式或块数据解析器。
 void scpi_parameter_start(void)
 {
 	if(((*p_scpi_inside >= '0') && (*p_scpi_inside <= '9')) || (*p_scpi_inside == '+') || (*p_scpi_inside == '-') || (*p_scpi_inside == '.'))
@@ -744,6 +758,7 @@ void scpi_parameter_start(void)
 	return;
 }
 
+// 解析十进制参数：支持符号、小数和指数形式，并按 INT/FLOAT 编码到参数缓冲区。
 void scpi_parameter_decimal(void)
 {
 	int i = 0;
@@ -1028,6 +1043,7 @@ void scpi_parameter_decimal(void)
 	}
 }
 
+// 解析由字母、数字和下划线组成的裸关键字，并以字符串形式写入参数缓冲区。
 void scpi_parameter_keyword(void)
 {
 	int i;
@@ -1065,6 +1081,7 @@ void scpi_parameter_keyword(void)
 	return;
 }
 
+// 非十进制参数入口：当前未启用 __SUPPORT__NONDECIMAL__，因此返回格式错误。
 void scpi_parameter_nondecimal(void)
 {
 #ifdef __SUPPORT__NONDECIMAL__
@@ -1076,6 +1093,7 @@ void scpi_parameter_nondecimal(void)
 #endif
 }
 
+// 带引号字符串入口：当前未启用 __SUPPORT__STRING__，因此返回格式错误。
 void scpi_parameter_string(void)
 {
 #ifdef __SUPPORT__STRING__
@@ -1087,6 +1105,7 @@ void scpi_parameter_string(void)
 #endif
 }
 
+// 表达式参数入口：当前未启用 __SUPPORT__EXPRESSION__，因此返回格式错误。
 void scpi_parameter_expression(void)
 {
 #ifdef __SUPPORT__EXPRESSION__
@@ -1098,6 +1117,7 @@ void scpi_parameter_expression(void)
 #endif
 }
 
+// SCPI 块数据入口：当前未启用 __SUPPORT__BLOCK__，因此返回格式错误。
 void scpi_parameter_block(void)
 {
 #ifdef __SUPPORT__BLOCK__
@@ -1109,6 +1129,7 @@ void scpi_parameter_block(void)
 #endif
 }
 
+// 单位后缀入口：当前没有单位解析实现，直接返回 ERR_INVALID_FORMAT。
 void scpi_parameter_units(void)
 {
 	scpi_parser_return_code = ERR_INVALID_FORMAT;
@@ -1116,6 +1137,7 @@ void scpi_parameter_units(void)
 	return;
 }
 
+// 参数分隔与收尾：处理空白、逗号、分号和换行，并校验实际参数数量。
 void scpi_parameter_pause(void)
 {
 	while(TRUE)
@@ -1191,6 +1213,7 @@ void scpi_parameter_pause(void)
 	}
 }
 
+// 宏定义命令入口：当前仅为占位实现。
 short scpi_macro_define(void)
 {
 	return 0;
