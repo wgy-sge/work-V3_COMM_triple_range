@@ -49,30 +49,42 @@ const char *pScpi_param[]=
 
 	"cch",		//8
 	"cch",
+	"ccm",
+	"ccm",
 	"ccl",		//
 	"ccl",
 	"cvh",
 	"cvh",
+	"cvm",
+	"cvm",
 	"cvl",
 	"cvl",
 	"crh",
 	"crh",
+	"crm",
+	"crm",
 	"crl",
 	"crl",
 	"cp",
 	"cp",		
 	"ccdh",
 	"ccdh",
+	"ccdm",
+	"ccdm",
 	"ccdl",
 	"ccdl",
         
         "cvdh",
 	"cvdh",
+	"cvdm",
+	"cvdm",
 	"cvdl",
 	"cvdl",
 
 	"crdh",
 	"crdh",
+	"crdm",
+	"crdm",
 
 	"crdl",
 	"crdl",
@@ -113,7 +125,7 @@ const char *pScpi_param[]=
 	"wave",
 	"wave",
         "cz",
-        "cz"
+        "cz", // 保持参数短名、长名成对，避免后续索引错位。
           
 
 	"cont",//34
@@ -646,6 +658,12 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			}
 			
 
+		case COM_CCM:
+		case COM_CVM:
+		case COM_CRM:
+		case COM_CCDM:
+		case COM_CVDM:
+		case COM_CRDM:
 		case COM_CCH:
 		case COM_CVH:	
 		case COM_CCL:

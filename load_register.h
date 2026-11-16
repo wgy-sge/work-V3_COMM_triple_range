@@ -1,39 +1,47 @@
 #ifndef __LOAD__REGISTER__H
 #define __LOAD__REGISTER__H
 
-//负载功能定义
+//负载功能定义，与 V3_MAIN_triple_range 的功能编号保持一致。
 enum
 {
-	FUNC_CCH = 0,
-	FUNC_CCL,
-	FUNC_CVH,
-	FUNC_CVL,
-	FUNC_CRH,
-	FUNC_CRL,
-	FUNC_CP,
-	FUNC_CCDH,
-	FUNC_CCDL,
-        FUNC_CVDH,
-        FUNC_CVDL,
-	FUNC_CRDH,
-	FUNC_CRDL,
-	FUNC_CPD,
-	FUNC_SEQ,
-	FUNC_AUTO,
-	FUNC_OCP,
-	FUNC_OPP,
-	FUNC_DISCHARGE,
-	FUNC_LOEF,
-	FUNC_DCR,
-	FUNC_LED,
-	FUNC_SWEEP,
-	FUNC_CVCC,
-	FUNC_CRCC,
-	FUNC_CPCC,
-        FUNC_CVCR,
-	FUNC_WAVE,
-        FUNC_CZ,
-	AMOUNT_OF_FUNCTION,
+  FUNC_CCH = 0,      /**< 定电流高量程。 */
+  FUNC_CCM,          /**< 定电流中量程。 */
+  FUNC_CCL,          /**< 定电流低量程。 */
+  FUNC_CVH,          /**< 定电压高量程。 */
+  FUNC_CVM,          /**< 定电压中量程。 */
+  FUNC_CVL,          /**< 定电压低量程。 */
+  FUNC_CRH,          /**< 定电阻高量程。 */
+  FUNC_CRM,          /**< 定电阻中量程。 */
+  FUNC_CRL,          /**< 定电阻低量程。 */
+  FUNC_CP ,          /**< 定功率。 */
+  FUNC_CCDH,         /**< 定电流动态高量程。 */
+  FUNC_CCDM,         /**< 定电流动态中量程。 */
+  FUNC_CCDL,         /**< 定电流动态低量程。 */
+  FUNC_CVDH,         /**< 定电压动态高量程。 */
+  FUNC_CVDM,         /**< 定电压动态中量程。 */
+  FUNC_CVDL,         /**< 定电压动态低量程。 */
+  FUNC_CRDH,         /**< 定电阻动态高量程。 */
+  FUNC_CRDM,         /**< 定电阻动态中量程。 */
+  FUNC_CRDL,         /**< 定电阻动态低量程。 */
+  FUNC_CPD,          /**< 定功率动态。 */
+  FUNC_SEQ,          /**< 序列功能。 */
+  FUNC_AUTO,         /**< 自动功能。 */
+  FUNC_OCP,          /**< 过流测试。 */
+  FUNC_OPP,          /**< 过功率测试。 */
+  FUNC_DISCHARGE,    /**< 放电功能。 */
+  FUNC_LOEF,         /**< 负载效应测试。 */
+  FUNC_DCR,          /**< 直流内阻测试。 */
+  FUNC_LED,          /**< LED模拟功能。 */
+  FUNC_SWEEP,        /**< 扫频功能。 */
+  FUNC_CVCC,         /**< CV+CC组合功能。 */
+  FUNC_CRCC,         /**< CR+CC组合功能。 */
+  FUNC_CPCC,         /**< CP+CC组合功能。 */
+  FUNC_CVCR,         /**< CV+CR组合功能。 */
+  FUNC_WAVE,         /**< 波形功能。 */
+  FUNC_CZ,           /**< CZ功能。 */
+  FUNC_STEP,         /**< STEP功能。 */
+  FUNC_MPPT,         /**< MPPT功能。 */
+  AMOUNT_OF_FUNCTION /**< 负载功能数量。 */
 
 };
 
@@ -485,9 +493,7 @@ typedef enum
 #define    BIT_SHORT             0x00000004     //短路指示位[2]
 #define    BIT_SENSE             0x00000008     //电压SENSE位[3]
 #define    BITS_MODE             0x000000F0     //模式位域[4-7]
-#define    BITS_FUNCTION         0x00001F00     //功能位域[8-12]
-#define    BIT_SAMP_VOLT_OL      0x00002000     //电压采样超量程[13]
-#define    BIT_SAMP_CURR_OL      0x00004000     //电流采样超量程[14]
+#define    BITS_FUNCTION         0x00007F00     //三量程主控功能位域[8-14]
 #define    BIT_RMT               0x00008000     //远程控制位域[15]
 #define    BIT_FINISH            0x00010000     //测试完成位[16]
 #define    BIT_RUNNING           0x00020000     //测试进行位[17] 

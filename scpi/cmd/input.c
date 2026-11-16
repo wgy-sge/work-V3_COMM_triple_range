@@ -86,7 +86,7 @@ short scpi_spe_function(void)
 
 	if (scpi_proc_ava)//ÎÞÃüÁî´ý´¦Àí
 	{
-		pscpi_pb= GetParaValue(scpi_param_buffer+1, SCPI_INT|SCPI_STR, &state, &err_code);
+		pscpi_pb= GetParaValue(scpi_param_buffer+1, SCPI_INT|SCPI_FUNCTION|SCPI_STR, &state, &err_code);
 		if (pscpi_pb== NULL)
 			return err_code; 		
 

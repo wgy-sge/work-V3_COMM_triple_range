@@ -1,6 +1,8 @@
 
 #include "include.h"
 
+// 中量程使用表尾扩展寄存器，按当前测试功能选择读写地址。
+
 
 
 //瞬态阻值
@@ -27,6 +29,10 @@ short scpi_spe_transient_voltage_fashion_answer(void)
 		if(fun.reg_int== FUNC_CVDL)
 		{
 			requ_write_an_reg((u8*)&fashion.reg_int, MAP_CVDL_WAY);	
+		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&fashion.reg_int, MAP_CVDM_WAY);
 		}
 		else
 		{
@@ -58,6 +64,10 @@ short scpi_spe_transient_voltage_fashion_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_WAY,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_WAY,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_WAY,1 );
@@ -129,6 +139,10 @@ short scpi_spe_transient_voltage_mlevel_answer(void)
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDL_L1);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDM_L1);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDH_L1);
@@ -158,6 +172,10 @@ short scpi_spe_transient_voltage_mlevel_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_L1,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_L1,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_L1,1 );
@@ -200,6 +218,10 @@ short scpi_spe_transient_voltage_mwidth_answer(void)
 		{
 			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CVDL_T1);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CVDM_T1);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CVDH_T1);
@@ -228,6 +250,10 @@ short scpi_spe_transient_voltage_mwidth_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_T1,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_T1,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_T1,1 );
@@ -271,6 +297,10 @@ short scpi_spe_transient_voltage_tlevel_answer(void)
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDL_L2);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDM_L2);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CVDH_L2);
@@ -299,6 +329,10 @@ short scpi_spe_transient_voltage_tlevel_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_L2,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_L2,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_L2,1 );
@@ -341,6 +375,10 @@ short scpi_spe_transient_voltage_twidth_answer(void)
 		{
 			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CVDL_T2);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CVDM_T2);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CVDH_T2);
@@ -370,6 +408,10 @@ short scpi_spe_transient_voltage_twidth_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_T2,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_T2,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_T2,1 );
@@ -412,6 +454,10 @@ short scpi_spe_transient_voltage_positive_answer(void)
 		{
 				requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDL_SLEW_UP);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+				requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDM_SLEW_UP);
+		}
 		else
 		{
 				requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDH_SLEW_UP);
@@ -440,6 +486,10 @@ short scpi_spe_transient_voltage_positive_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_SLEW_UP,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_SLEW_UP,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_SLEW_UP,1 );
@@ -484,6 +534,10 @@ short scpi_spe_transient_voltage_negative_answer(void)
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDL_SLEW_DN);
 		}
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDM_SLEW_DN);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CVDH_SLEW_DN);
@@ -513,6 +567,10 @@ short scpi_spe_transient_voltage_negative_quest_answer(void)
 		{
 			requ_read_regs( MAP_CVDL_SLEW_DN,1 );
 		}		
+		else if(fun.reg_int== FUNC_CVDM)
+		{
+			requ_read_regs( MAP_CVDM_SLEW_DN,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CVDH_SLEW_DN,1 );

@@ -1,5 +1,7 @@
 #include "include.h"
 
+// 中量程使用表尾扩展寄存器，按当前测试功能选择读写地址。
+
 
 //定态电压
 short scpi_spe_static_volt_level_answer(void)
@@ -28,6 +30,10 @@ short scpi_spe_static_volt_level_answer(void)
 		if(fun.reg_int== FUNC_CVL)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVL_VOLT_SET);
+		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVM_VOLT_SET);
 		}
 		else
 		{
@@ -58,6 +64,10 @@ short scpi_spe_static_volt_level_quest_answer(void)
 		if(fun.reg_int== FUNC_CVL)
 		{
 			requ_read_regs( MAP_CVL_VOLT_SET, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_read_regs( MAP_CVM_VOLT_SET, 1 );
 		}
 		else
 		{
@@ -93,9 +103,14 @@ short scpi_spe_static_volt_range_answer(void)
 
 	fun= GetPreRegDat( );
 	fun.reg_int= (fun.reg_int&BITS_FUNCTION)>> SHIFT_FUNCTION;//当前测试功能
-	if ((fun.reg_int== FUNC_CVH)||(fun.reg_int== FUNC_CVL))
+	if ((fun.reg_int== FUNC_CVH)||(fun.reg_int== FUNC_CVM)||(fun.reg_int== FUNC_CVL))
 	{
-		if(range.reg_int)
+		// 保留原 0=高、1=低的含义，新增 2=中量程。
+		if(range.reg_int== 2)
+		{
+			fun.reg_int= FUNC_CVM;
+		}
+		else if(range.reg_int)
 		{
 			fun.reg_int= FUNC_CVL;
 		}
@@ -136,6 +151,10 @@ short scpi_spe_static_volt_range_quest_answer(void)
 	if(fun.reg_int== FUNC_CVL)
 	{
 		range= 1;	
+	}
+	else if(fun.reg_int== FUNC_CVM)
+	{
+		range= 2;
 	}
 	else
 	{
@@ -185,6 +204,10 @@ short scpi_spe_static_volt_rise_answer(void)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVL_SLEW_UP);
 		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVM_SLEW_UP);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVH_SLEW_UP);			
@@ -214,6 +237,10 @@ short scpi_spe_static_volt_rise_quest_answer(void)
 		if(fun.reg_int== FUNC_CVL)
 		{
 			requ_read_regs( MAP_CVL_SLEW_UP, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_read_regs( MAP_CVM_SLEW_UP, 1 );
 		}
 		else
 		{
@@ -258,6 +285,10 @@ short scpi_spe_static_volt_fall_answer(void)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVL_SLEW_DN);
 		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVM_SLEW_DN);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CVH_SLEW_DN);
@@ -288,6 +319,10 @@ short scpi_spe_static_volt_fall_quest_answer(void)
 		if(fun.reg_int== FUNC_CVL)
 		{
 			requ_read_regs( MAP_CVL_SLEW_DN, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CVM)
+		{
+			requ_read_regs( MAP_CVM_SLEW_DN, 1 );
 		}
 		else
 		{
@@ -334,6 +369,10 @@ short scpi_spe_static_current_level_answer(void)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCL_CURR_SET);
 		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCM_CURR_SET);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCH_CURR_SET);
@@ -364,6 +403,10 @@ short scpi_spe_static_current_level_quest_answer(void)
 		if(fun.reg_int== FUNC_CCL)
 		{
 			requ_read_regs( MAP_CCL_CURR_SET, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_read_regs( MAP_CCM_CURR_SET, 1 );
 		}
 		else
 		{
@@ -400,9 +443,14 @@ short scpi_spe_static_current_range_answer(void)
 	fun= GetPreRegDat( );
 	fun.reg_int= (fun.reg_int&BITS_FUNCTION)>> SHIFT_FUNCTION;//当前测试功能
 
-	if ((fun.reg_int== FUNC_CCH)||(fun.reg_int== FUNC_CCL))
+	if ((fun.reg_int== FUNC_CCH)||(fun.reg_int== FUNC_CCM)||(fun.reg_int== FUNC_CCL))
 	{
-		if(range.reg_int)
+		// 保留原 0=高、1=低的含义，新增 2=中量程。
+		if(range.reg_int== 2)
+		{
+			fun.reg_int= FUNC_CCM;
+		}
+		else if(range.reg_int)
 		{
 			fun.reg_int= FUNC_CCL;
 		}
@@ -439,6 +487,10 @@ short scpi_spe_static_current_range_quest_answer(void)
 	if(fun.reg_int== FUNC_CCL)
 	{
 		range= 1;	
+	}
+	else if(fun.reg_int== FUNC_CCM)
+	{
+		range= 2;
 	}
 	else
 	{
@@ -485,6 +537,10 @@ short scpi_spe_static_current_rise_answer(void)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCL_SLEW_UP);
 		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCM_SLEW_UP);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCH_SLEW_UP);//当前功能不对
@@ -514,6 +570,10 @@ short scpi_spe_static_current_rise_quest_answer(void)
 		if(fun.reg_int== FUNC_CCL)
 		{
 			requ_read_regs( MAP_CCL_SLEW_UP, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_read_regs( MAP_CCM_SLEW_UP, 1 );
 		}
 		else
 		{
@@ -556,6 +616,10 @@ short scpi_spe_static_current_fall_answer(void)
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCL_SLEW_DN);
 		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCM_SLEW_DN);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&volt.reg_floa, MAP_CCH_SLEW_DN);//当前功能不对
@@ -585,6 +649,10 @@ short scpi_spe_static_current_fall_quest_answer(void)
 			if(fun.reg_int== FUNC_CCL)
 		{
 			requ_read_regs( MAP_CCL_SLEW_DN, 1 );	
+		}
+		else if(fun.reg_int== FUNC_CCM)
+		{
+			requ_read_regs( MAP_CCM_SLEW_DN, 1 );
 		}
 		else
 		{
@@ -677,6 +745,10 @@ short scpi_spe_static_resistance_level_answer(void)
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRL_RESI_SET);
 		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRM_RESI_SET);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRH_RESI_SET);
@@ -703,6 +775,10 @@ short scpi_spe_static_resistance_level_quest_answer(void)
 		if(fun.reg_int== FUNC_CRL)
 		{
 			requ_read_regs( MAP_CRL_RESI_SET, 1);
+		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_read_regs( MAP_CRM_RESI_SET, 1);
 		}
 		else
 		{
@@ -748,6 +824,10 @@ short scpi_spe_static_resistance_rise_answer(void)
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRL_SLEW_UP);
 		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRM_SLEW_UP);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRH_SLEW_UP);
@@ -774,6 +854,10 @@ short scpi_spe_static_resistance_rise_quest_answer(void)
 		if(fun.reg_int== FUNC_CRL)
 		{
 			requ_read_regs( MAP_CRL_SLEW_UP, 1);
+		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_read_regs( MAP_CRM_SLEW_UP, 1);
 		}
 		else
 		{
@@ -818,6 +902,10 @@ short scpi_spe_static_resistance_fall_answer(void)
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRL_SLEW_DN);
 		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRM_SLEW_DN);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&resis.reg_floa, MAP_CRH_SLEW_DN);
@@ -844,6 +932,10 @@ short scpi_spe_static_resistance_fall_quest_answer(void)
 		if(fun.reg_int== FUNC_CRL)
 		{
 			requ_read_regs( MAP_CRL_SLEW_DN, 1);
+		}
+		else if(fun.reg_int== FUNC_CRM)
+		{
+			requ_read_regs( MAP_CRM_SLEW_DN, 1);
 		}
 		else
 		{
@@ -880,9 +972,14 @@ short scpi_spe_static_resistance_range_answer(void)
 	fun= GetPreRegDat( );
 	fun.reg_int= (fun.reg_int&BITS_FUNCTION)>> SHIFT_FUNCTION;//当前测试功能
 
-	if ((fun.reg_int== FUNC_CRH)||(fun.reg_int== FUNC_CRL))
+	if ((fun.reg_int== FUNC_CRH)||(fun.reg_int== FUNC_CRM)||(fun.reg_int== FUNC_CRL))
 	{
-		if(range.reg_int)
+		// 保留原 0=高、1=低的含义，新增 2=中量程。
+		if(range.reg_int== 2)
+		{
+			fun.reg_int= FUNC_CRM;
+		}
+		else if(range.reg_int)
 		{
 			fun.reg_int= FUNC_CRL;
 		}
@@ -920,6 +1017,10 @@ short scpi_spe_static_resistance_range_quest_answer(void)
 	if(fun.reg_int== FUNC_CRL)
 	{
 		range= 1;	
+	}
+	else if(fun.reg_int== FUNC_CRM)
+	{
+		range= 2;
 	}
 	else
 	{

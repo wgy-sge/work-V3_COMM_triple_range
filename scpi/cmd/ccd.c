@@ -1,5 +1,7 @@
 #include "include.h"
 
+// 中量程使用表尾扩展寄存器，按当前测试功能选择读写地址。
+
 
 //瞬态电流
 short scpi_spe_transient_current_fashion_answer(void)
@@ -25,6 +27,10 @@ short scpi_spe_transient_current_fashion_answer(void)
 		if(fun.reg_int== FUNC_CCDL)
 		{
 			requ_write_an_reg((u8*)&fashion.reg_int, MAP_CCDL_WAY);	
+		}
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&fashion.reg_int, MAP_CCDM_WAY);
 		}
 		else
 		{
@@ -56,6 +62,10 @@ short scpi_spe_transient_current_fashion_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_WAY,1 );
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_WAY,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_WAY,1 );
@@ -128,6 +138,10 @@ short scpi_spe_transient_current_mlevel_answer(void)
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDL_L1);	
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDM_L1);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDH_L1);	
@@ -157,6 +171,10 @@ short scpi_spe_transient_current_mlevel_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_L1,1 );	
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_L1,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_L1,1 );	
@@ -199,6 +217,10 @@ short scpi_spe_transient_current_mwidth_answer(void)
 		{
 			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CCDL_T1);		
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CCDM_T1);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&mwidth.reg_floa, MAP_CCDH_T1);	
@@ -228,6 +250,10 @@ short scpi_spe_transient_current_mwidth_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_T1,1 );
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_T1,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_T1,1 );	
@@ -269,6 +295,10 @@ unReg32 fun;
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDL_L2);		
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDM_L2);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDH_L2);
@@ -299,6 +329,10 @@ unReg32 fun;
 		{
 			requ_read_regs( MAP_CCDL_L2,1 );
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_L2,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_L2,1 );	
@@ -341,6 +375,10 @@ unReg32 fun;
 		{
 			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CCDL_T2);			
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CCDM_T2);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&twidth.reg_floa, MAP_CCDH_T2);	
@@ -372,6 +410,10 @@ short scpi_spe_transient_current_twidth_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_T2,1 );
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_T2,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_T2,1 );	
@@ -416,6 +458,10 @@ unReg32 fun;
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDL_SLEW_DN);		
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDM_SLEW_DN);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDH_SLEW_DN);
@@ -444,6 +490,10 @@ short scpi_spe_transient_current_negative_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_SLEW_DN,1 );	
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_SLEW_DN,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_SLEW_DN,1 );		
@@ -485,6 +535,10 @@ unReg32 fun;
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDL_SLEW_UP);	
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDM_SLEW_UP);
+		}
 		else
 		{
 			requ_write_an_reg((u8*)&curr.reg_floa, MAP_CCDH_SLEW_UP);
@@ -512,6 +566,10 @@ short scpi_spe_transient_current_positive_quest_answer(void)
 		{
 			requ_read_regs( MAP_CCDL_SLEW_UP,1 );	
 		}		
+		else if(fun.reg_int== FUNC_CCDM)
+		{
+			requ_read_regs( MAP_CCDM_SLEW_UP,1 );
+		}
 		else
 		{
 			requ_read_regs( MAP_CCDH_SLEW_UP,1 );	
