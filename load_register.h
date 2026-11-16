@@ -411,6 +411,51 @@ typedef enum
         MAP_CZ_Cl,                      //并联电容
         MAP_CZ_Rl,                      //并联电阻
 
+	MAP_STEP_RUN_MODE=332,           //STEP运行模式
+	MAP_STEP_START,                  //STEP开始
+	MAP_STEP_DELTA,                  //STEP DELTA
+	MAP_STEP_STOP,                   //STEP停止
+	MAP_STEP_TRI_MODE_SELECT,        //STEP触发方式
+	MAP_STEP_TIMER,                  //STEP时间
+
+	MAP_MPPT_STEP_SIZE,                      //MPPT步长
+	MAP_MPPT_REGU_PERIOD,                    //MPPT调整周期
+
+	/* 三量程扩展寄存器追加在表尾，保持原有寄存器地址不变。 */
+	MAP_CCM_CURR_SET,                //CCM curr set
+	MAP_CCM_SLEW_UP,                 //CCM slew up
+	MAP_CCM_SLEW_DN,                 //CCM slew dn
+	MAP_CVM_VOLT_SET,                //CVM volt set
+	MAP_CVM_SLEW_UP,                 //CVM slew up
+	MAP_CVM_SLEW_DN,                 //CVM slew dn
+
+	MAP_CVDM_WAY,                    //CVDM运行方式
+	MAP_CVDM_L1,                     //瞬态CV主值电压
+	MAP_CVDM_L2,                     //瞬态CV瞬态电压
+	MAP_CVDM_T1,                     //瞬态CV主值时间
+	MAP_CVDM_T2,                     //瞬态CV瞬态时间
+	MAP_CVDM_SLEW_UP,                //CVDM上升斜率
+	MAP_CVDM_SLEW_DN,                //CVDM下降斜率
+
+	MAP_CCDM_WAY,                    //CCDM运行方式
+	MAP_CCDM_L1,                     //瞬态CC主值电流
+	MAP_CCDM_L2,                     //瞬态CC瞬态电流
+	MAP_CCDM_T1,                     //瞬态CC主值时间
+	MAP_CCDM_T2,                     //瞬态CC瞬态时间
+	MAP_CCDM_SLEW_UP,                //CCDM上升斜率
+	MAP_CCDM_SLEW_DN,                //CCDM下降斜率
+
+	MAP_CRDM_WAY,                    //CRDM运行方式
+	MAP_CRDM_L1,                     //CRDM主值电阻
+	MAP_CRDM_L2,                     //CRDM瞬态电阻
+	MAP_CRDM_T1,                     //CRDM主值脉宽
+	MAP_CRDM_T2,                     //CRDM瞬态脉宽
+	MAP_CRDM_SLEW_UP,                //CRDM上升斜率
+	MAP_CRDM_SLEW_DN,                //CRDM下降斜率
+
+	MAP_CRM_RESI_SET,                //CR电阻设定
+	MAP_CRM_SLEW_UP,                 //上升斜率
+	MAP_CRM_SLEW_DN,                 //下降斜率
 
 	AMOUNT_OF_REGISTER,              //寄存器数目
 
