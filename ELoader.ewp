@@ -2433,6 +2433,12 @@
                 <name>$PROJ_DIR$\scpi\cmd\sweep.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\scpi\cmd\step.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\scpi\cmd\mppt.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\scpi\cmd\system.c</name>
             </file>
             <file>

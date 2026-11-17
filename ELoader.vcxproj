@@ -137,6 +137,8 @@
     <ClCompile Include="scpi\cmd\static.c" />
     <ClCompile Include="scpi\cmd\status.c" />
     <ClCompile Include="scpi\cmd\sweep.c" />
+    <ClCompile Include="scpi\cmd\step.c" />
+    <ClCompile Include="scpi\cmd\mppt.c" />
     <ClCompile Include="scpi\cmd\system.c" />
     <ClCompile Include="scpi\cmd\transient.c" />
     <ClCompile Include="scpi\scpi_errors.c" />

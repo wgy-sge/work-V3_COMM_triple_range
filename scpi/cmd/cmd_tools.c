@@ -126,6 +126,10 @@ const char *pScpi_param[]=
 	"wave",
         "cz",
         "cz", // 保持参数短名、长名成对，避免后续索引错位。
+	"step",
+	"step",
+	"mppt",
+	"mppt",
           
 
 	"cont",//34
@@ -686,6 +690,8 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 		case COM_SWEEP:	
 		case COM_WAVE:
                 case COM_CZ:
+		case COM_STEP:
+		case COM_MPPT:
 			if ((para_type&SCPI_FUNCTION)== 0)
 			{
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值

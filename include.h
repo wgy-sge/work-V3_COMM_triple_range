@@ -71,8 +71,8 @@
 #define TIMER_SYS_PERIOD          5000//50ms为基本周期
 
 
-#define    SOFT_VERSION          "V1.03"
-#define    SOFT_DATE             "26041800"
+#define    SOFT_VERSION          "V1.04-(v3)"
+#define    SOFT_DATE             "26-11-16"
 
 #define    SOFT_INFO             SOFT_VERSION\
 	","SOFT_DATE  

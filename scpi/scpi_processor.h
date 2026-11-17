@@ -340,6 +340,18 @@ enum
 	source_sweep_status,
 	source_sweep_status_result,
 	//*********************************************
+	source_step,
+	source_step_mode,
+	source_step_start,
+	source_step_delta,
+	source_step_stop,
+	source_step_trigger,
+	source_step_trigger_mode,
+	source_step_timer,
+	source_mppt,
+	source_mppt_step,
+	source_mppt_period,
+	//*********************************************
 	source_combine,
 	source_combine_mode,
 	source_combine_cvcc,
@@ -904,6 +916,26 @@ short scpi_spe_sweep_wave_dweel_quest(void);
 short scpi_spe_sweep_status_result_quest(void);
 
 
+
+//STEP
+short scpi_spe_step_mode(void);
+short scpi_spe_step_mode_quest(void);
+short scpi_spe_step_start(void);
+short scpi_spe_step_start_quest(void);
+short scpi_spe_step_delta(void);
+short scpi_spe_step_delta_quest(void);
+short scpi_spe_step_stop(void);
+short scpi_spe_step_stop_quest(void);
+short scpi_spe_step_trigger_mode(void);
+short scpi_spe_step_trigger_mode_quest(void);
+short scpi_spe_step_timer(void);
+short scpi_spe_step_timer_quest(void);
+
+//MPPT
+short scpi_spe_mppt_step(void);
+short scpi_spe_mppt_step_quest(void);
+short scpi_spe_mppt_period(void);
+short scpi_spe_mppt_period_quest(void);
 
 //COMBINE
 short scpi_spe_combine_mode(void);

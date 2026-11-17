@@ -94,6 +94,8 @@ typedef enum
         COM_CV2CR,
 	COM_WAVE,
         COM_CZ,
+	COM_STEP,
+	COM_MPPT,
 
 	COM_CONT,
 	COM_PULSE,

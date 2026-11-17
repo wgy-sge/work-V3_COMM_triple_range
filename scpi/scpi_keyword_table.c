@@ -643,7 +643,7 @@ const scpi_special_keyword scpi_special_command_table[] =
 
 
 	//[SOURce:]SWEEP
-	{"sweep","swee",source_sweep_current,source_combine,FALSE,0,0,NULL,NULL},
+	{"sweep","swee",source_sweep_current,source_step,FALSE,0,0,NULL,NULL},
 	//[SOURce:]SWEEP:CURRent
 	{"current","curr",source_sweep_current_l1,source_sweep_frequency,FALSE,0,0,NULL,NULL},
 	//[SOURce:]SWEEP:CURRent:L1
@@ -672,6 +672,31 @@ const scpi_special_keyword scpi_special_command_table[] =
 	{"status","stat",source_sweep_status_result,-1,FALSE,0,0,NULL,NULL},
 	//[SOURce:]SWEEP:STATus:RESult
 	{"result","res",-1,-1,FALSE,0,0,NULL,scpi_spe_sweep_status_result_quest},
+
+
+	//[SOURce:]STEP
+	{"step","step",source_step_mode,source_mppt,FALSE,0,0,NULL,NULL},
+	//[SOURce:]STEP:MODE
+	{"mode","mode",-1,source_step_start,FALSE,1,0,scpi_spe_step_mode,scpi_spe_step_mode_quest},
+	//[SOURce:]STEP:STARt
+	{"start","star",-1,source_step_delta,FALSE,1,0,scpi_spe_step_start,scpi_spe_step_start_quest},
+	//[SOURce:]STEP:DELTa
+	{"delta","delt",-1,source_step_stop,FALSE,1,0,scpi_spe_step_delta,scpi_spe_step_delta_quest},
+	//[SOURce:]STEP:STOP
+	{"stop","stop",-1,source_step_trigger,FALSE,1,0,scpi_spe_step_stop,scpi_spe_step_stop_quest},
+	//[SOURce:]STEP:TRIGger
+	{"trigger","trig",source_step_trigger_mode,source_step_timer,FALSE,0,0,NULL,NULL},
+	//[SOURce:]STEP:TRIGger:MODE
+	{"mode","mode",-1,-1,FALSE,1,0,scpi_spe_step_trigger_mode,scpi_spe_step_trigger_mode_quest},
+	//[SOURce:]STEP:TIMer
+	{"timer","tim",-1,-1,FALSE,1,0,scpi_spe_step_timer,scpi_spe_step_timer_quest},
+
+	//[SOURce:]MPPT
+	{"mppt","mppt",source_mppt_step,source_combine,FALSE,0,0,NULL,NULL},
+	//[SOURce:]MPPT:STEP
+	{"step","step",-1,source_mppt_period,FALSE,1,0,scpi_spe_mppt_step,scpi_spe_mppt_step_quest},
+	//[SOURce:]MPPT:PERiod
+	{"period","per",-1,-1,FALSE,1,0,scpi_spe_mppt_period,scpi_spe_mppt_period_quest},
 
 
 	//[SOURce:]COMBine

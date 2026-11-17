@@ -415,9 +415,9 @@ typedef enum
 	MAP_WAVE_RB_SIN_FREQ,            //正玄波实际频率
         
         MAP_CZ_Ls=328,                //串联电感
-        MAP_CZ_Rs,                      //串联电阻
-        MAP_CZ_Cl,                      //并联电容
-        MAP_CZ_Rl,                      //并联电阻
+        MAP_CZ_Rs,                    //串联电阻
+        MAP_CZ_Cl,                    //并联电容
+        MAP_CZ_Rl,                    //并联电阻
 
 	MAP_STEP_RUN_MODE=332,           //STEP运行模式
 	MAP_STEP_START,                  //STEP开始
