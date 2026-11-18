@@ -455,24 +455,39 @@ s32 FT68200_Func2FT6800_Func(s32 ft68200_Func)
 }
 
 
+/*
+ * 从 SCPI 解析器整理好的参数缓冲区中取出一个参数，检查类型并输出数值。
+ * pdata：指向当前参数的类型标记；首个参数传 scpi_param_buffer+1，跳过参数数量。
+ *        参数格式为 [类型标记][数据]，标记 0x02/0x04/0x01 分别表示整数/浮点数/字符串。
+ * para_type：允许的类型和关键字类别位掩码，如 SCPI_INT|SCPI_STR|SCPI_ON_OFF。
+ * param：整数和关键字结果写入 reg_int，浮点数写入 reg_floa，十六进制数写入 dat32。
+ *        普通数值分支设置 type；字符串分支只写入结果值，不设置 type。
+ * pscpi_err：报错时写入错误码，正常返回时不清零，应通过返回指针是否为 NULL 判断错误。
+ * 返回：当前参数之后的地址，供读取后续参数；报错返回 NULL。参数数量由外层管理。
+ * 本函数不做物理单位换算或业务范围检查，具体含义由调用命令决定。
+ */
 u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_err)
 {
 	u8 *pVal;	
 	SCPI_STR_PARAMETER scpi_para;
 	s32 tmp_func;
 
+	// 跳过类型标记；数值已由解析器转换为本机二进制格式，字符串以零字节结束。
 	pVal= (pdata+1);
 	switch(pdata[0])
 	{
 	case BIT_INDICATES_INT:	
+		// 输入为整数时，当前命令必须允许 SCPI_INT；这里不自动转换为浮点数。
 		if ((para_type&SCPI_INT)== 0)
 		{
 			*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 			return NULL;
 		}
+		// 按 int 取值，返回时跨过一个类型标记字节和 sizeof(int) 个数据字节。
 		(*param).reg_int= *(int*)pVal;
 		if (para_type&SCPI_FT6800_FUNCTION)//与ELoader兼容参数解析
 		{
+			// 将旧功能码映射到当前功能码；不支持时输出 -1 并提前返回，不设置 type。
 			(*param).reg_int= FT6800_Func2FT68200_Func((*param).reg_int);
 			if((*param).reg_int== -1)
 				return (pdata+1+sizeof(int));//不支持的功能			
@@ -486,10 +501,12 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 			return NULL;
 		}
+		// 直接读取解析器保存的 float，返回位置按浮点数据长度推进。
 		(*param).reg_floa= *(float*)pVal;
 		(*param).type= SCPI_FLOAT;
 		return (pdata+1+sizeof(float));	
 
+	// 字符串先检查 SCPI_STR，再按关键字类别检查并转换为相应数值。
 	case BIT_INDICATES_STRING:
 		if ((para_type&SCPI_STR)== 0)
 		{
@@ -497,6 +514,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			return NULL;
 		}
 
+		// 本工程使用 x/X 前缀表示十六进制字符串，例如 x1234，转换结果写入 dat32。
 		if (para_type&SCPI_HEX)//可见字符表示十六进制数
 		{	
 			if ((pVal[0]== 'x')||(pVal[0]== 'X'))
@@ -518,6 +536,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			}				
 		}		
 
+		// 外部控制关键字使用独立字符串表，表中索引 0~3 就是对应的控制方式。
 		if (para_type&SCPI_EXT_INHIBIT)
 		{
 			scpi_para= (SCPI_STR_PARAMETER)CmpStringDirec((char **)pExtInhibitStrings, (char*)pVal);
@@ -532,6 +551,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			return (pdata+1+strlen((char *)pVal)+1); 
 		}	
 
+		// 序列模式使用独立字符串表，将合法关键字转换为模式编号 0~2。
 		if (para_type&SCPI_SEQ_MODE)
 		{
 			scpi_para= (SCPI_STR_PARAMETER)CmpStringDirec((char **)pSeqModeStrings, (char*)pVal);
@@ -550,6 +570,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 	
 		if (para_type&SCPI_FT6800_FUNCTION)//与ELoader兼容参数解析
 		{
+				// 先匹配旧协议功能名称，再映射到当前工程的功能码。
 				scpi_para= CmpString((char **)pScpi_ft6800param, (char*)pVal);
 
 				
@@ -568,6 +589,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 
 		}
 
+		// 通用参数表按短名、长名成对存放，CmpString 返回该关键字对应的枚举编号。
 		scpi_para= (SCPI_STR_PARAMETER)CmpString((char **)pScpi_param, (char*)pVal);
 		switch(scpi_para)
 		{	
@@ -578,6 +600,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}	
+			// 将 OFF/ON 统一转换为开关值 0/1，供调用方直接使用。
 			(*param).reg_int= scpi_para- COM_OFF;
 			break;
 
@@ -589,9 +612,11 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}	
+			// 主机 MASTER 为 0，从机 SLAVER 为 1。
 			(*param).reg_int= scpi_para- COM_MASTER;
 			break;	
 
+		// CC 在放电模式中直接取 0；普通模式的 CC/CV 分别取 0/1。
 		case COM_MODE_CC:
 			if (para_type&SCPI_DISCH_MODE)//放电模式
 			{				
@@ -607,6 +632,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 			(*param).reg_int= scpi_para- COM_MODE_CC;
 			break;
 
+		// CR/CP 在普通模式中编号为 2/3，在放电模式中编号为 1/2。
 		case COM_CRH:	
 		case COM_CRL:	
 		case COM_CP:
@@ -640,6 +666,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 		case COM_CR2CC:
 		case COM_CP2CC:	
                 case COM_CV2CR:
+			// 复合模式编号：CV2CC=0、CR2CC=1、CP2CC=2、CV2CR=3。
 			if (para_type&SCPI_COMB_MODE)//复合测试模式
 			{
 				if (scpi_para== COM_CV2CC)
@@ -697,6 +724,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// 功能枚举以 COM_CCH 为起点，减去起点得到设备使用的功能码。
 			(*param).reg_int= scpi_para- COM_CCH;
 			break;		
 
@@ -708,6 +736,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// CONT/PULSE/TOGGLE 分别映射为连续、脉冲、翻转模式编号 0/1/2。
 			(*param).reg_int= scpi_para- COM_CONT;
 			break;
 
@@ -720,6 +749,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// CURR/VOLT/POWER 分别转换为电流、电压、功率选择编号 0/1/2。
 			(*param).reg_int= scpi_para- COM_CURR;
 			break;
 
@@ -740,6 +770,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// KEY/EXT/BUS 分别转换为按键、外部、总线触发源编号 0/1/2。
 			(*param).reg_int= scpi_para- COM_KEY;
 			break;
 
@@ -750,6 +781,7 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// LOCAL/REMOTE 分别转换为本地、远程控制编号 0/1。
 			(*param).reg_int= scpi_para- COM_LOCAL;
 			break;				
 
@@ -760,12 +792,14 @@ u8* GetParaValue(u8 *pdata, u32 para_type, Scpipara_type* param, short *pscpi_er
 				*pscpi_err= ERR_ILLEGAL_PARAMETER_VALUE;//非法参数值
 				return NULL;
 			}			
+			// FAST/SLOW 分别转换为快速、慢速响应编号 0/1。
 			(*param).reg_int= scpi_para- COM_FAST;
 			break;
 		default:
 			*pscpi_err= ERR_PARAMETER_ERROR;//未定义的参数错误
 			return NULL;
 		}
+		// 跨过类型标记、字符串正文及末尾零字节，定位到当前参数之后。
 		return (pdata+1+strlen((char *)pVal)+1);
 
 	default:

@@ -178,22 +178,27 @@ void scpi_parser_head(void)
 // 判断命令头类型：'*' 为公共命令，':' 为根路径，字母为设备命令。
 void scpi_command_head_start(void)
 {
+	// 输入已在预处理阶段转为小写，这里根据首字符选择后续命令头解析状态。
 	while(TRUE)
 	{
 		if(*p_scpi_inside == '*')
 		{
+			// 星号表示公共命令；保留指针在星号处，由 scpi_common_head() 提取完整名称。
 			scpi_parser_secondary_status = SCPI_COMMON_HEAD;
 			return;
 		}
 		else if(*p_scpi_inside == ':')
 		{
+			// 跳过前导冒号，要求其后紧接字母，作为从根路径开始的设备命令。
 			if((*(++p_scpi_inside) >= 'a') && (*p_scpi_inside <= 'z'))
 			{
+				// 前导冒号要求从根节点查找，同时重置当前层和后续命令继承的可见层。
 				p_scpi_level = p_scpi_visible_level = (scpi_special_keyword *)scpi_special_command_table;
 				scpi_parser_secondary_status = SCPI_SPECIAL_HEAD;
 			}
 			else
 			{
+				// 冒号后不是字母，命令头格式错误，交给收尾状态处理。
 				scpi_parser_return_code = ERR_COMMAND_HEADER_ERROR;
 				scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
 			}
@@ -201,11 +206,13 @@ void scpi_command_head_start(void)
 		}
 		else if((*p_scpi_inside >= 'a') && (*p_scpi_inside <= 'z'))
 		{
+			// 无前导冒号时沿用当前路径，指针保持在首字母处，交给设备命令头解析。
 			scpi_parser_secondary_status = SCPI_SPECIAL_HEAD;
 			return;
 		}
 		else if((*p_scpi_inside == SCPI_END_OF_INPUT))
 		{
+			// 已到行尾（0x0A），无新命令可解析；外层通过 HEAD_NONE 状态正常结束本行。
 			scpi_parser_return_code= ERR_NO_ERROR;//luguangping 20110701
 
 			//scpi_parser_return_code = ERR_SEMICOLON_UNWANTED;
@@ -214,31 +221,20 @@ void scpi_command_head_start(void)
 		}
 		else if((*p_scpi_inside == ';'))
 		{
-			//scpi_parser_return_code= ERR_NO_ERROR;//luguangping 20110701			
-			//scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END; //@add luguangping 20110704
-			//return;
-
-			//----------------------------------------
+			// 跳过多余分号，继续寻找有效命令头，保留当前命令路径。
 			p_scpi_inside++;//@add luguangping 20110704
 			continue;//@add luguangping 20110704
                         //----------------------------------------
 		}
-		/*
-		else if((*p_scpi_inside == SCPI_END_OF_INPUT) || (*p_scpi_inside == ';'))
-		{	
-			scpi_parser_return_code = ERR_SEMICOLON_UNWANTED;
-			scpi_parser_secondary_status= SCPI_COMMAND_HEAD_END;
-			//scpi_parser_return_code= ERR_NO_ERROR;//luguangping 20110701		
-			//scpi_parser_secondary_status = SCPI_COMMAND_HEAD_NONE; //@add luguangping 20110704
-			return;
-		}*/
 		else if(*p_scpi_inside <= ' ')
 		{
+			// 跳过空格及其余不大于空格的字符；行结束符已由前面的分支处理。
 			p_scpi_inside++;
 			continue;
 		}
 		else
 		{
+			// 其余字符不能作为命令头起始字符，记录格式错误并转入命令头收尾。
 			scpi_parser_return_code = ERR_COMMAND_HEADER_ERROR;
 			scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
 			return;
@@ -320,22 +316,30 @@ void scpi_ransack_common_table(void)
 
 	while(TRUE)
 	{
+		// strcmp 返回 0 才表示名称相同；非 0 进入当前表项不匹配的分支。
 		if(strcmp((char*)scpi_keyword_copy,(char*)p_scpi_common->name))
 		{
+			// Next 为 -1 表示查找链结束，仍未匹配则报未定义命令头错误（-113）。
 			if(p_scpi_common->Next == -1)
 			{
 				scpi_parser_return_code = ERR_UNDEFINED_HEADER;
+				// 转入命令头收尾阶段，由外层状态机根据错误码结束解析。
 				scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
 				return;
 			}
 			else
+				// Next 是相对于表头的数组下标，指针加法按结构体大小定位下一候选表项。
 				p_scpi_common = (scpi_common_keyword *)scpi_common_command_table + p_scpi_common->Next;
 		}
 		else
 		{
+			// 名称匹配成功，标记为公共命令，后续从当前表项取得所需参数数量。
 			scpi_command_type = SCPI_COMMON;
+			// 保存处理函数地址；解析完成后由 scpi_main_proc() 统一调用。
 			scpi_func_output = p_scpi_common->p_function;
+			// 记录命令头匹配成功，参数是否正确仍需后续流程检查。
 			scpi_parser_return_code = ERR_NO_ERROR;
+			// 转入命令头收尾阶段，按后续字符决定解析参数、暂停或结束。
 			scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
 			return;
 		}
@@ -438,17 +442,28 @@ void scpi_ransack_special_table(void)
 
 	while(TRUE)
 	{
+		// scpi_keyword_copy：从输入提取的当前层关键字，已转为小写，此处已去掉查询符号。
+		// p_scpi_keyword->name：命令表当前候选节点的完整名称；shortname 是其短名，随同级遍历切换。
+		// 例如解析 :SOUR:SEQ:EDIT:FILE:NUMB? 的第一层时，scpi_keyword_copy 为 "sour"。
+		// 从根节点开始查找时，name 最初为 "calibrate"；遍历到 "source" 时，短名 "sour" 与输入匹配。
+		// strcmp 返回 0 表示相同；长名和短名都不匹配时，才进入此分支继续查找。
+		// 任一名称匹配时条件为假，进入下面的 else 处理已匹配节点。
 		if(strcmp((char*)scpi_keyword_copy,(char*)p_scpi_keyword->name)&&strcmp((char*)scpi_keyword_copy,(char*)p_scpi_keyword->shortname))
 		{
+			// NextBrother 是下一同级节点在命令表中的数组下标，-1 表示没有后续同级节点。
 			if(p_scpi_keyword->NextBrother != -1)
+				// 以表头加下标定位下一候选节点，下一轮仍用同一个输入关键字进行匹配。
 				p_scpi_keyword = (scpi_special_keyword *)scpi_special_command_table + p_scpi_keyword->NextBrother;
 			else
+				// 退出同级节点查找循环，随后尝试沿默认节点查找当前关键字。
 				break;
 		}
 		else
 		{
+			// 标志为真表示当前关键字后还有冒号，输入指针已由 scpi_special_head() 移到下一关键字。
 			if(scpi_middle_keyword)
 			{
+				// 当前节点没有子节点时，无法继续匹配冒号后的路径，转入命令头错误收尾。
 				if(p_scpi_keyword->FirstChild == -1)
 				{
 					scpi_parser_return_code = ERR_UNDEFINED_HEADER;
@@ -457,10 +472,14 @@ void scpi_ransack_special_table(void)
 				}
 				else
 				{
+					// 记录已进入的路径，供同一行后续相对命令沿用。
 					p_scpi_visible_level = p_scpi_keyword;
+					// 更新当前查找层级，下一次查表从该节点的 FirstChild 开始匹配子关键字。
 					p_scpi_level = p_scpi_keyword;
 					scpi_parser_return_code = ERR_NO_ERROR;
+					// 设为继续解析状态；逐层循环由外层 scpi_parser_head() 的 while(TRUE) 驱动。
 					scpi_parser_secondary_status = SCPI_SPECIAL_HEAD;
+					// 先返回 scpi_special_head() 再回到外层；case 的 break 只退出 switch，下一轮继续。
 					return;
 				}
 			}
@@ -532,22 +551,40 @@ void scpi_ransack_special_table(void)
 }
 
 // 沿 IsDefault 标记的默认子节点向下查找，补全命令末尾省略的可选路径。
+/*
+ * 补全命令末尾省略的默认关键字，并保存最终处理函数或错误状态。
+ * 入口：p_scpi_keyword 指向有子节点的已匹配节点；递归时指向刚找到的默认节点。
+ * 例：:INP ON 与 :INP:STAT ON 等效，省略的 state 节点由 IsDefault=TRUE 标记。
+ *     首次进入时 p_scpi_keyword->name 为 "input"，scpi_keyword_copy 为 "inp"，输入指针指向 "on"。
+ *     查找到默认叶子 state 后，根据命令类型选择其设置或查询处理函数。
+ * while 沿 NextBrother 查找同级默认节点，递归沿 FirstChild 补全更深的默认路径。
+ * 输入字符串和 scpi_keyword_copy 内容保持不变，p_scpi_inside 位置不变，参数由外层继续解析。
+ * 结果通过全局变量输出：scpi_func_output、scpi_parser_return_code 和二级解析状态。
+ * 成功或报错后均进入 SCPI_COMMAND_HEAD_END，由外层完成命令头收尾。
+ */
 void scpi_exist_default_path(void)
 {
+	// 将入口节点作为当前父层；上述例子中 p_scpi_level 指向 input。
 	p_scpi_level = p_scpi_keyword;
+	// FirstChild 是命令表数组下标；进入第一个子节点，例中从 input 移到 state。
 	p_scpi_keyword = (scpi_special_keyword *)scpi_special_command_table + p_scpi_keyword->FirstChild;
 
 	while(TRUE)
 	{
+		// 只有 IsDefault 为真才允许省略；候选节点名称来自命令表，无需再次匹配输入字符串。
 		if(p_scpi_keyword->IsDefault)
 		{
+			// 命令类型已由前面的查表流程确定；带问号的查询命令选择查询回调。
 			if(scpi_command_type == SCPI_SPE_QUE)
 			{
+				// 默认节点还有子节点，继续递归补全下一层默认路径。
 				if(p_scpi_keyword->FirstChild != -1)
 				{
 					scpi_exist_default_path();
+					// 递归调用已保存处理函数或错误状态，直接返回并逐层退出。
 					return;
 				}
+				// 到达默认叶子节点，但没有查询回调，记录该命令不可查询的错误。
 				else if(p_scpi_keyword->p_q_function == NULL)
 				{
 					scpi_parser_return_code = ERR_COMMAND_CAN_NOT_QUERY;
@@ -556,6 +593,7 @@ void scpi_exist_default_path(void)
 				}
 				else
 				{
+					// 保存查询函数地址供主处理流程调用；例 :INP? 选择 scpi_spe_input_output_state_quest。
 					scpi_func_output = p_scpi_keyword->p_q_function;
 					scpi_parser_return_code = ERR_NO_ERROR;
 					scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
@@ -564,11 +602,14 @@ void scpi_exist_default_path(void)
 			}
 			else
 			{
+				// 默认节点还有子节点，继续递归补全下一层默认路径。
 				if(p_scpi_keyword->FirstChild != -1)
 				{
 					scpi_exist_default_path();
+					// 递归调用已保存处理函数或错误状态，直接返回并逐层退出。
 					return;
 				}
+				// 设置命令需要设置回调；默认叶子没有该回调时，记录命令必须用于查询的错误。
 				else if(p_scpi_keyword->p_function == NULL)
 				{
 					scpi_parser_return_code = ERR_COMMAND_MUST_QUERY;
@@ -577,6 +618,7 @@ void scpi_exist_default_path(void)
 				}
 				else
 				{
+					// 例 :INP ON 选择 scpi_spe_input_output_state，返回后由外层解析参数 ON 并调度执行。
 					scpi_func_output = p_scpi_keyword->p_function;
 					scpi_parser_return_code = ERR_NO_ERROR;
 					scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
@@ -584,12 +626,14 @@ void scpi_exist_default_path(void)
 				}
 			}
 		}
+		// 当前候选不是默认节点，按 NextBrother 数组下标继续查找下一个同级节点。
 		else if(p_scpi_keyword->NextBrother != -1)
 		{
 			p_scpi_keyword = (scpi_special_keyword *)scpi_special_command_table + p_scpi_keyword->NextBrother;
 		}
 		else
 		{
+			// 同级子节点已遍历完仍无默认节点，无法补全省略路径，转入错误收尾。
 			scpi_parser_return_code = ERR_UNDEFINED_HEADER;
 			scpi_parser_secondary_status = SCPI_COMMAND_HEAD_END;
 			return;
